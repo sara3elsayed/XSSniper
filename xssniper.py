@@ -120,6 +120,7 @@ parser.add_argument('--file-log-level', help='File logging level', dest='file_lo
                     choices=core.log.log_config.keys(), default=None)
 parser.add_argument('--log-file', help='Name of the file to log', dest='log_file',
                     default=core.log.log_file)
+parser.add_argument('--config', help='Path to configuration file (YAML/JSON)', dest='config_file')    #********
 
 print("Checking for --save-json in argv:", sys.argv)
 print("Parser arguments defined: ", [action.option_strings for action in parser._actions])
@@ -131,99 +132,100 @@ from core.config_loader import ConfigLoader, apply_config_to_args
 
 
 # Target Options
-target_group = parser.add_argument_group('Target Options')
+# target_group = parser.add_argument_group('Target Options')******
 
-target_group.add_argument('--data', 
-                         help='POST data to send with requests (e.g., "param1=value1&param2=value2")',
-                         dest='paramData')
-target_group.add_argument('--json', 
-                         help='Treat POST data as JSON format',
-                         dest='jsonData', action='store_true')
-target_group.add_argument('--path', 
-                         help='Inject payloads in the URL path instead of parameters',
-                         dest='path', action='store_true')
+# target_group.add_argument('--data', 
+#                          help='POST data to send with requests (e.g., "param1=value1&param2=value2")',
+#                          dest='paramData')
+# target_group.add_argument('--json', 
+#                          help='Treat POST data as JSON format',
+#                          dest='jsonData', action='store_true')
+# target_group.add_argument('--path', 
+#                          help='Inject payloads in the URL path instead of parameters',
+#                          dest='path', action='store_true')
 
 # Encoding Options
-encoding_group = parser.add_argument_group('Encoding Options')
-encoding_group.add_argument('-e', '--encode', 
-                          help='Encode payloads to evade filters (url: URL encoding, base64: Base64 encoding, default: url)',
-                          dest='encode', choices=['url', 'base64'], default='url')
-encoding_group.add_argument('--encode-fallback', 
-                           help='Retry failed payloads with the selected encoding method',
-                           dest='encode_fallback', action='store_true')
+# encoding_group = parser.add_argument_group('Encoding Options')  ***********
+# encoding_group.add_argument('-e', '--encode', 
+#                           help='Encode payloads to evade filters (url: URL encoding, base64: Base64 encoding, default: url)',
+#                           dest='encode', choices=['url', 'base64'], default='url')
+# encoding_group.add_argument('--encode-fallback', 
+#                            help='Retry failed payloads with the selected encoding method',
+#                            dest='encode_fallback', action='store_true')
 
 # Scanning Modes
-scan_group = parser.add_argument_group('Scanning Modes')
-scan_group.add_argument('--fuzzer', 
-                       help='Enable fuzzer mode for interactive payload testing',
-                       dest='fuzz', action='store_true')
-scan_group.add_argument('--crawl', 
-                       help='Crawl the target website for additional URLs to scan',
-                       dest='recursive', action='store_true')
-scan_group.add_argument('-l', '--level', 
-                       help='Crawling depth level (default: 2)',
-                       dest='level', type=int, default=2)
-scan_group.add_argument('--seeds', 
-                       help='Load crawling seeds from a file (one URL per line)',
-                       dest='args_seeds')
-scan_group.add_argument('-f', '--file', 
-                       help='Load custom payloads from a file (one payload per line, or "default" for built-in)',
-                       dest='args_file')
-scan_group.add_argument('--blind', 
-                       help='Inject blind XSS payload while crawling (requires --crawl)',
-                       dest='blindXSS', action='store_true')
+# scan_group = parser.add_argument_group('Scanning Modes') ****
+# scan_group.add_argument('--fuzzer', 
+#                        help='Enable fuzzer mode for interactive payload testing',
+#                        dest='fuzz', action='store_true')
+# scan_group.add_argument('--crawl', 
+#                        help='Crawl the target website for additional URLs to scan',
+#                        dest='recursive', action='store_true')
+# scan_group.add_argument('-l', '--level', 
+#                        help='Crawling depth level (default: 2)',
+#                        dest='level', type=int, default=2)
+# scan_group.add_argument('--seeds', 
+#                        help='Load crawling seeds from a file (one URL per line)',
+#                        dest='args_seeds')
+# scan_group.add_argument('-f', '--file', 
+#                        help='Load custom payloads from a file (one payload per line, or "default" for built-in)',
+#                        dest='args_file')
+# scan_group.add_argument('--blind', 
+#                        help='Inject blind XSS payload while crawling (requires --crawl)',
+#                        dest='blindXSS', action='store_true')
 
 # Request Options
-request_group = parser.add_argument_group('Request Options')
-request_group.add_argument('--timeout', 
-                          help='Request timeout in seconds (default: 10)',
-                          dest='timeout', type=int, default=core.config.timeout)
-request_group.add_argument('--proxy', 
-                          help='Use proxy settings from config.py',
-                          dest='proxy', action='store_true')
-request_group.add_argument('--headers', 
-                          help='Add custom headers (prompts if no value provided)',
-                          dest='add_headers', nargs='?', const=True)
-request_group.add_argument('-t', '--threads', 
-                          help='Number of concurrent threads (default: 10)',
-                          dest='threadCount', type=int, default=core.config.threadCount)
-request_group.add_argument('-d', '--delay', 
-                          help='Delay between requests in seconds (default: 0)',
-                          dest='delay', type=int, default=core.config.delay)
+# request_group = parser.add_argument_group('Request Options')   ****
+# request_group.add_argument('--timeout', 
+#                           help='Request timeout in seconds (default: 10)',
+#                           dest='timeout', type=int, default=core.config.timeout)
+# request_group.add_argument('--proxy', 
+#                           help='Use proxy settings from config.py',
+#                           dest='proxy', action='store_true')
+# request_group.add_argument('--headers', 
+#                           help='Add custom headers (prompts if no value provided)',
+#                           dest='add_headers', nargs='?', const=True)
+# request_group.add_argument('-t', '--threads', 
+#                           help='Number of concurrent threads (default: 10)',
+#                           dest='threadCount', type=int, default=core.config.threadCount)
+# request_group.add_argument('-d', '--delay', 
+#                           help='Delay between requests in seconds (default: 0)',
+#                           dest='delay', type=int, default=core.config.delay)
 
 # Output Options
-output_group = parser.add_argument_group('Output Options')
-output_group.add_argument('--console-log-level', 
-                         help='Console logging level (default: info)',
-                         dest='console_log_level', default=core.log.console_log_level,
-                         choices=core.log.log_config.keys())
-output_group.add_argument('--file-log-level', 
-                         help='File logging level (default: none)',
-                         dest='file_log_level', choices=core.log.log_config.keys(), default=None)
-output_group.add_argument('--log-file', 
-                         help='Path to log file (default: xsstrike.log)',
-                         dest='log_file', default=core.log.log_file)
+# output_group = parser.add_argument_group('Output Options')   ***
+# output_group.add_argument('--console-log-level', 
+#                          help='Console logging level (default: info)',
+#                          dest='console_log_level', default=core.log.console_log_level,
+#                          choices=core.log.log_config.keys())
+# output_group.add_argument('--file-log-level', 
+#                          help='File logging level (default: none)',
+#                          dest='file_log_level', choices=core.log.log_config.keys(), default=None)
+# output_group.add_argument('--log-file', 
+#                          help='Path to log file (default: xsstrike.log)',
+#                          dest='log_file', default=core.log.log_file)
 
 # Configuration
-config_group = parser.add_argument_group('Configuration')
-config_group.add_argument('--config', 
-                         help='Path to configuration file (YAML or JSON format)',
-                         dest='config_file', default=None)
+# config_group = parser.add_argument_group('Configuration')  ******
+# config_group.add_argument('--config', 
+#                          help='Path to configuration file (YAML or JSON format)',
+#                          dest='config_file', default=None)
 
 # Other Options
-other_group = parser.add_argument_group('Other Options')
-other_group.add_argument('--update', 
-                        help='Update XSStrike to the latest version',
-                        dest='update', action='store_true')
-other_group.add_argument('--skip', 
-                        help='Skip confirmation prompts',
-                        dest='skip', action='store_true')
-other_group.add_argument('--skip-dom', 
-                        help='Skip DOM-based XSS checking',
-                        dest='skipDOM', action='store_true')
+# other_group = parser.add_argument_group('Other Options')   ***
+# other_group.add_argument('--update', 
+#                         help='Update XSStrike to the latest version',
+#                         dest='update', action='store_true')
+# other_group.add_argument('--skip', 
+#                         help='Skip confirmation prompts',
+#                         dest='skip', action='store_true')
+# other_group.add_argument('--skip-dom', 
+#                         help='Skip DOM-based XSS checking',
+#                         dest='skipDOM', action='store_true')
 args = parser.parse_args()
 
-# Load configuration from file and merge with command-line arguments
+# Load configuration from file and merge with comm
+# and-line arguments  ***************
 config_loader = ConfigLoader(args.config_file)
 config_loader.validate()  # Validate config file
 args = apply_config_to_args(args, config_loader)

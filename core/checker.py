@@ -1,5 +1,10 @@
+import re
+from fuzzywuzzy import fuzz
+import copy
+from urllib.parse import unquote
 from core.config import xsschecker
 from core.requester import requester
+from urllib.parse import unquote
 from typing import Dict, List, Callable
 from core.utils import replaceValue, fillHoles
 from core.log import setup_logger

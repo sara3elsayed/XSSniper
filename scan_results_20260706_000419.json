@@ -1,0 +1,9 @@
+{
+    "target": "https://xss-game.appspot.com/level1/frame?query=test",
+    "timestamp": "2026-07-06 00:04:19.497443",
+    "parameters": [
+        "query"
+    ],
+    "total_payloads_tested": 0,
+    "vulnerabilities": []
+}
